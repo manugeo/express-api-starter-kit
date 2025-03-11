@@ -11,6 +11,6 @@ const MONGODB_URI =
 const config: { PORT: string; MONGODB_URI: string | undefined } = {
   PORT: PORT.toString(),
   MONGODB_URI,
-}
+};
 
-export default config
+export default config;

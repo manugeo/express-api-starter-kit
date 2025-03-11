@@ -16,5 +16,5 @@ const error = (...params: unknown[]): void => {
 };
 export default {
   info,
-  error
+  error,
 };
