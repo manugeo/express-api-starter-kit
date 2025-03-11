@@ -1,6 +1,6 @@
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
-import stylistic from '@stylistic/eslint-plugin';
+import prettier from 'eslint-config-prettier';
 
 export default tseslint.config(
   {
@@ -15,16 +15,12 @@ export default tseslint.config(
         tsconfigRootDir: import.meta.dirname,
       },
     },
-    plugins: {
-      '@stylistic': stylistic,
-    },
     rules: {
       '@typescript-eslint/explicit-function-return-type': 'warn',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-unsafe-assignment': 'warn',
-      '@stylistic/quotes': ['error', 'single'],
-      '@stylistic/indent': ['error', 2],
     },
-  }
+  },
+  prettier
 );

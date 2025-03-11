@@ -1,7 +1,11 @@
 import express from 'express';
-import config from './utils/config';
+import cors from 'cors';
 
 const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (_req, res) => {
   res.json({
@@ -9,8 +13,4 @@ app.get('/', (_req, res) => {
   });
 });
 
-app.listen(config.PORT, () => {
-  console.log(`Server running on port ${config.PORT}`);
-});
-
-module.exports = app;
+export default app
