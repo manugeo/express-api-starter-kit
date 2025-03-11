@@ -1,5 +1,6 @@
 import express from 'express';
 import config from './utils/config';
+import logger from './utils/logger';
 
 const app = express();
 
@@ -10,7 +11,7 @@ app.get('/', (_req, res) => {
 });
 
 app.listen(config.PORT, () => {
-  console.log(`Server running on port ${config.PORT}`);
+  logger.info(`Server running on port ${config.PORT}`);
 });
 
 module.exports = app;
