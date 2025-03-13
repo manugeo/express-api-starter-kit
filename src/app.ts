@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import connectDB from './utils/db'
+import notesRouter from './controllers/notes'
 
 const app = express()
 
@@ -14,5 +15,7 @@ app.get('/', (_req, res) => {
     message: 'Express API Starter Kit is running',
   })
 })
+
+app.use('/api/notes', notesRouter)
 
 export default app

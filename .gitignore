@@ -5,6 +5,9 @@ jspm_packages/
 # TypeScript output directory
 dist/
 
+# REST API Client files
+requests/
+
 # Environment variables
 .env
 .env.local
