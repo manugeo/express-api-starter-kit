@@ -3,7 +3,7 @@ import { Note } from '../schemas/note.schema'
 
 export interface INote extends Document, Note {}
 
-const mongooseNoteSchema = new Schema(
+const noteSchema = new Schema(
   {
     title: {
       type: String,
@@ -31,6 +31,16 @@ const mongooseNoteSchema = new Schema(
   { timestamps: true },
 )
 
-const Note = mongoose.model<INote>('Note', mongooseNoteSchema)
+noteSchema.set('toJSON', {
+  transform: (_document, returnedObject) => {
+    returnedObject.id = (
+      returnedObject._id as mongoose.Types.ObjectId
+    ).toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  },
+})
+
+const Note = mongoose.model<INote>('Note', noteSchema)
 
 export default Note
