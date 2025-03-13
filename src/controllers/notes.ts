@@ -32,23 +32,6 @@ const newNoteParser = (
   }
 }
 
-const errorMiddleware = (
-  error: unknown,
-  _req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  if (error instanceof z.ZodError) {
-    res.status(400).send({
-      success: false,
-      message: 'Invalid request data',
-      errors: error.errors,
-    })
-  } else {
-    next(error)
-  }
-}
-
 notesRouter.post(
   '/',
   newNoteParser,
@@ -77,7 +60,5 @@ notesRouter.post(
     })
   },
 )
-
-notesRouter.use(errorMiddleware)
 
 export default notesRouter
