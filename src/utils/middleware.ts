@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
-import { ZodError } from 'zod'
+import { ZodError, ZodSchema } from 'zod'
+import logger from './logger'
 
 export const errorHandler = (
   error: unknown,
@@ -7,7 +8,7 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction,
 ) => {
-  console.error('Error occurred:', error)
+  logger.error('Error occurred:', error)
 
   if (error instanceof ZodError) {
     res.status(400).send({
@@ -17,8 +18,6 @@ export const errorHandler = (
     })
     return
   }
-
-  //Todo: Handle mongoose validation errors
 
   if (error instanceof Error) {
     res.status(500).send({
@@ -40,10 +39,10 @@ export const requestLogger = (
   _res: Response,
   next: NextFunction,
 ) => {
-  console.log('Method:', req.method)
-  console.log('Path:  ', req.path)
-  console.log('Body:  ', req.body)
-  console.log('---')
+  logger.info('Method:', req.method)
+  logger.info('Path:  ', req.path)
+  logger.info('Body:  ', req.body)
+  logger.info('---')
   next()
 }
 
@@ -52,4 +51,23 @@ export const unknownEndpoint = (_req: Request, res: Response) => {
     success: false,
     message: 'Unknown endpoint',
   })
+}
+
+/**
+ * Creates a middleware function that validates request data against a Zod schema
+ * @param schema The Zod schema to validate against
+ * @param source Where to find the data to validate (default: 'body')
+ */
+export const validateSchema = (
+  schema: ZodSchema,
+  source: 'body' | 'query' | 'params' = 'body',
+) => {
+  return (req: Request, _res: Response, next: NextFunction): void => {
+    try {
+      schema.parse(req[source])
+      next()
+    } catch (error) {
+      next(error)
+    }
+  }
 }

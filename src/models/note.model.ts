@@ -1,26 +1,7 @@
 import mongoose, { Document, Schema } from 'mongoose'
-import { z } from 'zod'
+import { Note } from '../schemas/note'
 
-export const noteSchema = z.object({
-  title: z.string().min(3).max(100),
-  description: z.string().min(3),
-  importance: z.number().int().min(0).max(10),
-  completed: z.boolean(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
-})
-export const createNoteSchema = noteSchema.omit({
-  createdAt: true,
-  updatedAt: true,
-})
-
-export type Note = z.infer<typeof noteSchema>
-export type NewNoteType = z.infer<typeof createNoteSchema>
-
-export interface INote extends Document, Omit<Note, 'createdAt' | 'updatedAt'> {
-  createdAt: Date;
-  updatedAt: Date;
-}
+export interface INote extends Document, Note {}
 
 const mongooseNoteSchema = new Schema(
   {
