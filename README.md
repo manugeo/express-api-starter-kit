@@ -11,6 +11,9 @@ A modern Express.js starter template for building RESTful APIs with TypeScript, 
 - **Hot Reloading** - Automatic server restart during development
 - **Environment Variables** - Built-in dotenv configuration
 - **CORS Support** - Cross-Origin Resource Sharing enabled
+- **Schema Validation** - Request validation with Zod
+- **Structured Error Handling** - Centralized error middleware
+- **Prettier** - Code formatting for consistent style
 
 ## Getting Started
 
@@ -54,13 +57,27 @@ Your API will be available at http://localhost:3000
 - `npm start` - Runs the built application in production mode
 - `npm run lint` - Runs ESLint to check for code issues
 - `npm run lint:fix` - Fixes automatically fixable ESLint issues
+- `npm run format` - Formats code using Prettier
+- `npm run format:check` - Checks if code formatting follows Prettier rules
 
 ## Project Structure
 
 ```
 express-api-starter-kit/
 ├── src/                    # Source directory
-│   ├── index.ts            # Application entry point
+│   ├── controllers/        # Route controllers
+│   │   └── notes.ts        # Notes API endpoints
+│   ├── models/             # Mongoose models
+│   │   └── note.model.ts   # Note model definition
+│   ├── schemas/            # Zod schemas for validation
+│   │   └── note.schema.ts  # Note schema definition
+│   ├── utils/              # Utility functions
+│   │   ├── config.ts       # Environment configuration
+│   │   ├── db.ts           # Database connection
+│   │   ├── logger.ts       # Logging utility
+│   │   └── middleware.ts   # Express middleware
+│   ├── app.ts              # Express app setup
+│   └── index.ts            # Application entry point
 ├── dist/                   # Compiled JavaScript (build output)
 ├── node_modules/           # Node.js dependencies
 ├── .env                    # Environment variables (create this)
@@ -71,11 +88,18 @@ express-api-starter-kit/
 └── README.md               # Project documentation
 ```
 
+## API Endpoints
+
+### Notes API
+
+- `GET /api/notes` - Retrieve all notes
+- `POST /api/notes` - Create a new note
+
 ## Future Additions
 
 - [ ] Add authentication with JWT
 - [ ] Set up automated testing with Jest
-- [ ] Add request validation with Joi/Zod
+- [x] Add request validation with Zod
 - [ ] Add API documentation with Swagger/OpenAPI
 - [ ] Add Docker configuration
 - [ ] Implement logging with Winston/Pino
