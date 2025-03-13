@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose'
-import { Note } from '../schemas/note'
+import { Note } from '../schemas/note.schema'
 
 export interface INote extends Document, Note {}
 

@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express'
 import { validateSchema } from '../utils/middleware'
-import { NewNote, newNoteSchema } from '../schemas/note'
+import { NewNote, newNoteSchema } from '../schemas/note.schema'
 import Note from '../models/note.model'
 
 const notesRouter = Router()
