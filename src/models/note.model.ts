@@ -1,33 +1,27 @@
 import mongoose, { Document, Schema } from 'mongoose'
 import { z } from 'zod'
 
-// Zod schema as the source of truth
-export const NoteSchema = z.object({
+export const noteSchema = z.object({
   title: z.string().min(3).max(100),
   description: z.string().min(3),
   importance: z.number().int().min(0).max(10),
   completed: z.boolean(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 })
-
-export type NoteType = z.infer<typeof NoteSchema>
-
-// For new note creation (without timestamps)
-export const NewNoteSchema = NoteSchema.omit({
+export const createNoteSchema = noteSchema.omit({
   createdAt: true,
   updatedAt: true,
 })
 
-export type NewNoteType = z.infer<typeof NewNoteSchema>
+export type Note = z.infer<typeof noteSchema>
+export type NewNoteType = z.infer<typeof createNoteSchema>
 
-// Mongoose interface derived from our Zod schema
-export interface INote extends Document, Omit<NoteType, 'createdAt' | 'updatedAt'> {
+export interface INote extends Document, Omit<Note, 'createdAt' | 'updatedAt'> {
   createdAt: Date;
   updatedAt: Date;
 }
 
-// Mongoose schema derived from our Zod schema
 const mongooseNoteSchema = new Schema(
   {
     title: {
