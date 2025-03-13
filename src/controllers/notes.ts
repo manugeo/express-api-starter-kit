@@ -1,21 +1,11 @@
 import { NextFunction, Request, Response, Router } from 'express'
-import Note from '../models/note'
-import { z } from 'zod'
+import Note, { NewNoteSchema, NewNoteType } from '../models/note'
 
 const notesRouter = Router()
 
 notesRouter.get('/', (_req, res) => {
   res.send('GET /api/notes')
 })
-
-const NewNoteSchema = z.object({
-  title: z.string().min(3).max(100),
-  description: z.string().min(3),
-  importance: z.number().int().min(0).max(10),
-  completed: z.boolean(),
-})
-
-type NewNoteType = z.infer<typeof NewNoteSchema>
 
 const newNoteParser = (
   req: Request,
