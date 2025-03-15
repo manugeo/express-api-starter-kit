@@ -19,9 +19,7 @@ notesRouter.post(
       importance: importance || 5,
       completed: completed || false,
     })
-
     const savedNote = await note.save()
-
     res.status(201).json({
       success: true,
       data: savedNote,
@@ -34,6 +32,21 @@ notesRouter.get('/', async (_req, res) => {
   res.json({
     success: true,
     data: notes,
+  })
+})
+
+notesRouter.get('/:id', async (req, res) => {
+  const note = await Note.findById(req.params.id)
+  if (!note) {
+    res.status(404).json({
+      success: false,
+      message: 'Note not found',
+    })
+    return
+  }
+  res.json({
+    success: true,
+    data: note,
   })
 })
 
