@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { ZodError, ZodSchema } from 'zod'
+import mongoose from 'mongoose'
 import logger from './logger'
 
 export const errorHandler = (
@@ -13,8 +14,29 @@ export const errorHandler = (
   if (error instanceof ZodError) {
     res.status(400).send({
       success: false,
-      message: 'Invalid request data',
+      message: 'Validation failed',
       errors: error.errors,
+    })
+    return
+  }
+
+  if (error instanceof mongoose.Error.ValidationError) {
+    const errors: Record<string, string> = {}
+    Object.keys(error.errors).forEach((key) => {
+      errors[key] = error.errors[key].message
+    })
+    res.status(400).send({
+      success: false,
+      message: 'Validation failed',
+      errors,
+    })
+    return
+  }
+
+  if (error instanceof mongoose.Error.CastError) {
+    res.status(400).send({
+      success: false,
+      message: `Invalid ${error.path}: ${error.value}`,
     })
     return
   }
