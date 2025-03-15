@@ -5,8 +5,12 @@ import Note from '../models/note.model'
 
 const notesRouter = Router()
 
-notesRouter.get('/', (_req, res) => {
-  res.send('GET /api/notes')
+notesRouter.get('/', async (_req, res) => {
+  const notes = await Note.find({})
+  res.json({
+    success: true,
+    data: notes,
+  })
 })
 
 notesRouter.post(
