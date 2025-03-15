@@ -1,113 +1,113 @@
 # Express API Starter Kit
 
-A modern Express.js starter template for building RESTful APIs with TypeScript, ESLint, and MongoDB integration.
+A robust, production-ready starter kit for building RESTful APIs with Express.js and TypeScript.
 
 ## Features
 
-- **TypeScript** - Write more reliable, maintainable code with static typing
-- **Express.js** - Fast, unopinionated, minimalist web framework for Node.js
-- **ESLint** - Modern linting with the latest ESLint v9 configuration
-- **MongoDB Integration** - Ready-to-use Mongoose setup for MongoDB connectivity
-- **Hot Reloading** - Automatic server restart during development
-- **Environment Variables** - Built-in dotenv configuration
-- **CORS Support** - Cross-Origin Resource Sharing enabled
-- **Schema Validation** - Request validation with Zod
-- **Structured Error Handling** - Centralized error middleware
-- **Prettier** - Code formatting for consistent style
+- **TypeScript** - Type-safe code for better reliability
+- **Express.js** - Fast, unopinionated web framework for Node.js
+- **MongoDB** with Mongoose - Elegant MongoDB object modeling
+- **Environment Configuration** - Using dotenv and cross-env for different environments
+- **Error Handling** - Using express-async-errors for automatic async error handling
+- **Input Validation** - Using Zod for schema validation
+- **Code Quality** - ESLint and Prettier for code consistency
+- **Development Experience** - Hot reload with ts-node-dev
 
-## Getting Started
+## Installation
 
-### Prerequisites
-
-- Node.js (v14 or higher)
-- npm or yarn
-- MongoDB (local or Atlas URI)
-
-### Installation
-
-1. Clone this repository:
 ```bash
-git clone https://github.com/your-username/express-api-starter-kit.git
+# Clone the repository
+git clone <repository-url>
 cd express-api-starter-kit
-```
 
-2. Install dependencies:
-```bash
+# Install dependencies
 npm install
+
+# Configure environment variables
+cp .env.example .env
+# Edit .env file with your configuration
 ```
 
-3. Create a `.env` file in the root directory:
+## Environment Variables
+
+Create a `.env` file in the project root with the following variables:
+
 ```
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/your-database
-NODE_ENV=development
+TEST_MONGODB_URI=mongodb://localhost:27017/test-database
 ```
 
-4. Start the development server:
+## Usage
+
 ```bash
+# Development mode
 npm run dev
+
+# Production build
+npm run build
+
+# Start production server
+npm start
 ```
 
-Your API will be available at http://localhost:3000
+## Environment Management
 
-### Available Scripts
+This project uses `cross-env` to manage environment variables across different platforms:
 
-- `npm run dev` - Starts the development server with hot-reloading
-- `npm run build` - Builds the TypeScript code for production
-- `npm start` - Runs the built application in production mode
-- `npm run lint` - Runs ESLint to check for code issues
-- `npm run lint:fix` - Fixes automatically fixable ESLint issues
-- `npm run format` - Formats code using Prettier
-- `npm run format:check` - Checks if code formatting follows Prettier rules
+- **Development**: `npm run dev` sets NODE_ENV=development
+- **Production**: `npm start` sets NODE_ENV=production
+- **Test**: `npm test` sets NODE_ENV=test
 
 ## Project Structure
 
 ```
-express-api-starter-kit/
-├── src/                    # Source directory
-│   ├── controllers/        # Route controllers
-│   │   └── notes.ts        # Notes API endpoints
-│   ├── models/             # Mongoose models
-│   │   └── note.model.ts   # Note model definition
-│   ├── schemas/            # Zod schemas for validation
-│   │   └── note.schema.ts  # Note schema definition
-│   ├── utils/              # Utility functions
-│   │   ├── config.ts       # Environment configuration
-│   │   ├── db.ts           # Database connection
-│   │   ├── logger.ts       # Logging utility
-│   │   └── middleware.ts   # Express middleware
-│   ├── app.ts              # Express app setup
-│   └── index.ts            # Application entry point
-├── dist/                   # Compiled JavaScript (build output)
-├── node_modules/           # Node.js dependencies
-├── .env                    # Environment variables (create this)
-├── .gitignore              # Git ignore file
-├── eslint.config.mjs       # ESLint configuration
-├── package.json            # Project metadata and dependencies
-├── tsconfig.json           # TypeScript configuration
-└── README.md               # Project documentation
+src/
+├── controllers/     # Route controllers
+├── models/          # Mongoose models
+├── schemas/         # Zod validation schemas
+├── utils/           # Utility functions
+│   ├── config.ts    # Environment configuration
+│   ├── db.ts        # Database connection
+│   ├── logger.ts    # Logging utility
+│   └── middleware.ts # Express middlewares
+├── app.ts           # Express app setup
+└── index.ts         # Application entry point
+```
+
+## Available Scripts
+
+- `npm run build` - Compiles TypeScript to JavaScript
+- `npm start` - Runs the compiled app in production mode
+- `npm run dev` - Runs the app in development mode with hot reload
+- `npm test` - Runs tests
+- `npm run lint` - Lints the code
+- `npm run lint:fix` - Lints and fixes the code
+- `npm run format` - Formats the code with Prettier
+- `npm run format:check` - Checks if code is properly formatted
+
+## Error Handling
+
+This project uses `express-async-errors` to automatically catch errors in async routes and pass them to the error handler middleware, eliminating the need for try-catch blocks in route handlers.
+
+```typescript
+// No need for try-catch in route handlers:
+notesRouter.get('/:id', async (req, res) => {
+  const note = await Note.findById(req.params.id); // This will be caught automatically if it fails
+  // ...rest of the handler
+});
 ```
 
 ## API Endpoints
 
-### Notes API
+### Notes
 
-- `GET /api/notes` - Retrieve all notes
+- `GET /api/notes` - Get all notes
+- `GET /api/notes/:id` - Get a single note
 - `POST /api/notes` - Create a new note
-
-## Future Additions
-
-- [ ] Add authentication with JWT
-- [ ] Set up automated testing with Jest
-- [x] Add request validation with Zod
-- [ ] Add API documentation with Swagger/OpenAPI
-- [ ] Add Docker configuration
-- [ ] Implement logging with Winston/Pino
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+- `PUT /api/notes/:id` - Update a note
+- `DELETE /api/notes/:id` - Delete a note
 
 ## License
 
-This project is licensed under the ISC License - see the LICENSE file for details.
+ISC
