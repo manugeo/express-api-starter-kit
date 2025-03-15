@@ -64,6 +64,7 @@ export const validateSchema = (
 ) => {
   return (req: Request, _res: Response, next: NextFunction): void => {
     try {
+      // Try-catch needed because Zod throws synchronous errors that express-async-errors can't catch
       schema.parse(req[source])
       next()
     } catch (error) {

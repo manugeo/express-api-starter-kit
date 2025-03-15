@@ -13,6 +13,8 @@ notesRouter.post(
   '/',
   validateSchema(newNoteSchema),
   async (req: Request<unknown, unknown, NewNote>, res: Response) => {
+    // No try-catch needed here because express-async-errors library will
+    // automatically catch any errors and forward them to our error handler middleware
     const { title, description, importance, completed } = req.body
 
     const note = new Note({

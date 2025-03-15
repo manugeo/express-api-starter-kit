@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import 'express-async-errors'
 import connectDB from './utils/db'
 import notesRouter from './controllers/notes'
 import {
