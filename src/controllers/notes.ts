@@ -79,4 +79,21 @@ notesRouter.put(
   },
 )
 
+notesRouter.delete('/:id', async (req, res) => {
+  const { id } = req.params
+  const existingNote = await Note.findById(id)
+  if (!existingNote) {
+    res.status(404).json({
+      success: false,
+      message: 'Note not found',
+    })
+    return
+  }
+  await Note.findByIdAndDelete(id)
+  res.status(200).json({
+    success: true,
+    message: 'Note deleted successfully',
+  })
+})
+
 export default notesRouter
