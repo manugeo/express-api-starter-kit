@@ -12,6 +12,11 @@ export const newNoteSchema = noteSchema.omit({
   createdAt: true,
   updatedAt: true,
 })
+export const updateNoteSchema = noteSchema.omit({
+  createdAt: true,
+  updatedAt: true,
+}).partial()
 
 export type Note = z.infer<typeof noteSchema>
 export type NewNote = z.infer<typeof newNoteSchema>
+export type UpdateNote = z.infer<typeof updateNoteSchema>

@@ -1,6 +1,11 @@
 import { Request, Response, Router } from 'express'
 import { validateSchema } from '../utils/middleware'
-import { NewNote, newNoteSchema } from '../schemas/note.schema'
+import {
+  NewNote,
+  newNoteSchema,
+  UpdateNote,
+  updateNoteSchema,
+} from '../schemas/note.schema'
 import Note from '../models/note.model'
 
 const notesRouter = Router()
@@ -49,5 +54,29 @@ notesRouter.get('/:id', async (req, res) => {
     data: note,
   })
 })
+
+notesRouter.put(
+  '/:id',
+  validateSchema(updateNoteSchema),
+  async (req: Request<{ id: string }, unknown, UpdateNote>, res: Response) => {
+    const { id } = req.params
+    const existingNote = await Note.findById(id)
+    if (!existingNote) {
+      res.status(404).json({
+        success: false,
+        message: 'Note not found',
+      })
+      return
+    }
+    const updatedNote = await Note.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    })
+    res.json({
+      success: true,
+      data: updatedNote,
+    })
+  },
+)
 
 export default notesRouter
