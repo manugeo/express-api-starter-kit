@@ -5,14 +5,6 @@ import Note from '../models/note.model'
 
 const notesRouter = Router()
 
-notesRouter.get('/', async (_req, res) => {
-  const notes = await Note.find({})
-  res.json({
-    success: true,
-    data: notes,
-  })
-})
-
 notesRouter.post(
   '/',
   validateSchema(newNoteSchema),
@@ -36,5 +28,13 @@ notesRouter.post(
     })
   },
 )
+
+notesRouter.get('/', async (_req, res) => {
+  const notes = await Note.find({})
+  res.json({
+    success: true,
+    data: notes,
+  })
+})
 
 export default notesRouter
